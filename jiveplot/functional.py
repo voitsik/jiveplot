@@ -1,9 +1,11 @@
-from __future__  import print_function
-from six         import iteritems
-from functools   import partial, reduce
-from itertools   import product, repeat, groupby
-from operator    import truth, contains, eq, is_not, attrgetter, itemgetter, methodcaller, __add__, is_
+from __future__ import print_function
+
 from collections import deque
+from functools import partial, reduce
+from itertools import groupby
+from operator import attrgetter, is_not, itemgetter, methodcaller, truth
+
+from six import iteritems
 
 # why this isn't in stdlib ... is probably because Guido does't like functional programming ...
 identity    = lambda x      : x

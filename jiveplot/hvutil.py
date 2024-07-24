@@ -82,11 +82,20 @@
 # Revision 1.2  2013-01-29 12:23:44  jive_cc
 # HV: * time to commit - added some more basic stuff
 #
-from   __future__ import print_function
-from   functional import map_, filter_, zip_, enumerate_, range_, is_not_none, drap
-from   six        import iteritems
-from   functools  import reduce, partial
-import itertools, operator, re, string, copy, math, datetime
+from __future__ import print_function
+
+import copy
+import datetime
+import itertools
+import math
+import operator
+import re
+from functools import partial, reduce
+
+from six import iteritems
+
+from jiveplot.functional import drap, filter_, is_not_none, map_, range_
+
 
 ## Partition a list into two lists - one with the elements satisfying the predicate
 ## and one with the elements who don't

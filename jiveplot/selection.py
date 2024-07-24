@@ -39,10 +39,14 @@
 # Revision 1.2  2013-01-29 12:23:45  jive_cc
 # HV: * time to commit - added some more basic stuff
 #
-from   six        import iteritems
-from   functools  import reduce
-from   functional import compose, is_not_none, map_
-import jenums, hvutil, copy, operator
+import copy
+import operator
+from functools import reduce
+
+from six import iteritems
+
+from jiveplot import hvutil, jenums
+from jiveplot.functional import compose, is_not_none, map_
 
 # how to format a time range "(start, end)" as TaQL
 fmt_time_cond = "(TIME>={0[0]:.7f} && TIME<={0[1]:.7f})".format

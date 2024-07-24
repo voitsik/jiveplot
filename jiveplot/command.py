@@ -1,14 +1,29 @@
 # command line utility - abstracts handling of commands from defining/implementing them
 # A rewrite from the glish based version from jivegui.ms2
-from   __future__ import print_function
+from __future__ import print_function
+
 try:               import builtins
 except ImportError:import __builtin__ as builtins
-import re, sys, copy, pydoc, fcntl, termios, struct, os, itertools, math, tempfile, traceback, functional
-import hvutil, glob
-from   six        import iteritems
-from   six.moves  import input as raw_input
-from   functional import List, drain, drap, map_, filter_, GetA, GetN, compose
-from   functools  import reduce
+import copy
+import fcntl
+import glob
+import itertools
+import math
+import os
+import pydoc
+import re
+import struct
+import sys
+import tempfile
+import termios
+import traceback
+from functools import reduce
+
+from six import iteritems
+from six.moves import input as raw_input
+
+from jiveplot import hvutil
+from jiveplot.functional import GetA, List, compose, drap, filter_, map_
 
 # if we have readline, go on, use it then!
 # we attempt to save the history across invocations of this prgrm

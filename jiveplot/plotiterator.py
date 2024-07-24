@@ -147,10 +147,20 @@
 ##       built around ms2util.reducems
 ##
 ##
-from   __future__ import print_function
-from six          import iteritems
-import ms2util, hvutil, jenums, itertools, copy, operator, numpy, math, imp, time, collections, functional, plotutil
+from __future__ import print_function
+
+import collections
+import copy
+import imp
+import itertools
+import operator
+import time
+
+import numpy
 import pyrap.quanta
+from six import iteritems
+
+from jiveplot import functional, hvutil, jenums, ms2util, plotutil
 
 # Auto-detect of pycasa
 havePyCasa = True
@@ -1042,7 +1052,10 @@ def genrows(bls, ddids, fldids):
             yield (tm, bl, dd, fld)
         tm = tm + 1
 
-import itertools, operator
+import itertools
+import operator
+
+
 class fakems:
     def __init__(self, ms, mapping):
         #self.ms      = ms

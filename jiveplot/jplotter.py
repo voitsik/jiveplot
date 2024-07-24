@@ -393,11 +393,28 @@
 #   Revision 1.2  2013-01-29 12:23:45  jive_cc
 #   HV: * time to commit - added some more basic stuff
 #
-from   __future__ import print_function
-from   six        import iteritems
-import copy, re, math, operator, itertools, plotiterator, ppgplot, datetime, os, subprocess, numpy, parsers, imp, time
-import jenums, selection, ms2mappings, plots, ms2util, hvutil, pyrap.quanta, sys, pydoc, collections, gencolors, functools
-from   functional import compose, const, identity, map_, filter_, drap, range_, reduce, partial, GetA
+from __future__ import print_function
+
+import collections
+import copy
+import datetime
+import functools
+import imp
+import itertools
+import operator
+import os
+import pydoc
+import re
+import sys
+import time
+
+import ppgplot
+from six import iteritems
+
+from jiveplot import (gencolors, hvutil, jenums, ms2mappings, ms2util, parsers,
+                      plotiterator, plots, selection)
+from jiveplot.functional import (GetA, compose, const, drap, filter_, identity,
+                                 map_, partial, range_, reduce)
 
 if '-d' in sys.argv:
     print("PPGPLOT=",repr(ppgplot))
@@ -1903,9 +1920,9 @@ def run_plotter(cmdsrc, **kwargs):
     defaults.update(kwargs)
     # borrow the "mkcmd" function and only make it visible
     # in this scope
-    import command
-    from command import mkcmd
-    from helpfile import Help
+    from jiveplot import command
+    from jiveplot.command import mkcmd
+    from jiveplot.helpfile import Help
 
     if defaults.get('debug', False):
         import platform

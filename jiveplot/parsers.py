@@ -1,9 +1,20 @@
 # HV: Contains parsers for querying list of scans
-from   __future__ import print_function
-from   six        import iteritems
-from   functools  import reduce
-from   functional import *
-import re, hvutil, operator, math, itertools, inspect, plotiterator, copy, numpy, plotutil, collections
+from __future__ import print_function
+
+import collections
+import copy
+import inspect
+import itertools
+import math
+import operator
+import re
+from functools import reduce
+
+import numpy
+from six import iteritems
+
+from jiveplot import hvutil, plotiterator, plotutil
+from jiveplot.functional import *
 
 haveQuanta = False
 try:
