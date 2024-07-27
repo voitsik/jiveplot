@@ -1,4 +1,4 @@
-[![https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg](https://www.singularity-hub.org/static/img/hosted-singularity--hub-%23e32929.svg)](https://singularity-hub.org/collections/1847)
+This fork is intended to simplify the installation of **jiveplot** as a Python package via pip.
 
 # jplotter / jiveplot
 Python based visualization tool for AIPS++/CASA MeasurementSet data
@@ -143,5 +143,5 @@ $Id: command.py,v 1.16 2015-11-04 13:30:10 jive_cc Exp $
   'exit' exits, 'list' lists, 'help' helps
 jcli> ms <container dir>/path/to/my_data.ms
 MS my_data.ms opened &cet
-jcli> 
+jcli>
 ```
