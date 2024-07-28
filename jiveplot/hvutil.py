@@ -94,7 +94,7 @@ from functools import partial, reduce
 
 from six import iteritems
 
-from jiveplot.functional import drap, filter_, is_not_none, map_, range_
+from .functional import drap, filter_, is_not_none, map_, range_
 
 
 ## Partition a list into two lists - one with the elements satisfying the predicate

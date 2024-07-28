@@ -13,8 +13,8 @@ from functools import reduce
 import numpy
 from six import iteritems
 
-from jiveplot import hvutil, plotiterator, plotutil
-from jiveplot.functional import *
+from . import hvutil, plotutil
+from .functional import *
 
 haveQuanta = False
 try:

@@ -411,10 +411,29 @@ import time
 import ppgplot
 from six import iteritems
 
-from jiveplot import (gencolors, hvutil, jenums, ms2mappings, ms2util, parsers,
-                      plotiterator, plots, selection)
-from jiveplot.functional import (GetA, compose, const, drap, filter_, identity,
-                                 map_, partial, range_, reduce)
+from . import (
+    gencolors,
+    hvutil,
+    jenums,
+    ms2mappings,
+    ms2util,
+    parsers,
+    plotiterator,
+    plots,
+    selection,
+)
+from .functional import (
+    GetA,
+    compose,
+    const,
+    drap,
+    filter_,
+    identity,
+    map_,
+    partial,
+    range_,
+    reduce,
+)
 
 if '-d' in sys.argv:
     print("PPGPLOT=",repr(ppgplot))
@@ -1920,9 +1939,9 @@ def run_plotter(cmdsrc, **kwargs):
     defaults.update(kwargs)
     # borrow the "mkcmd" function and only make it visible
     # in this scope
-    from jiveplot import command
-    from jiveplot.command import mkcmd
-    from jiveplot.helpfile import Help
+    from . import command
+    from .command import mkcmd
+    from .helpfile import Help
 
     if defaults.get('debug', False):
         import platform
@@ -3017,4 +3036,3 @@ def run_plotter(cmdsrc, **kwargs):
 #print '        command line interface....'
 #print
 #jcli()
-

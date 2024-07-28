@@ -1,7 +1,7 @@
 import collections
 
-from jiveplot import jenums
-from jiveplot.functional import range_
+from . import jenums
+from .functional import range_
 
 AX        = jenums.Axes
 

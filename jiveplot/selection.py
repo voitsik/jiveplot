@@ -45,8 +45,8 @@ from functools import reduce
 
 from six import iteritems
 
-from jiveplot import hvutil, jenums
-from jiveplot.functional import compose, is_not_none, map_
+from . import hvutil, jenums
+from .functional import compose, is_not_none, map_
 
 # how to format a time range "(start, end)" as TaQL
 fmt_time_cond = "(TIME>={0[0]:.7f} && TIME<={0[1]:.7f})".format
@@ -170,6 +170,3 @@ class selection:
         # expects them
         return map_(lambda x: self.newPlot[x], [jenums.Axes.P, jenums.Axes.CH, jenums.Axes.SB,jenums.Axes.FQ,
                                                jenums.Axes.BL, jenums.Axes.SRC, jenums.Axes.TIME, jenums.Axes.TYPE])
-
-
-

@@ -134,8 +134,8 @@ import pyrap.quanta
 import pyrap.tables
 from six import iteritems
 
-from jiveplot import hvutil, jenums
-from jiveplot.functional import enumerate_, filter_, map_, zip_
+from . import hvutil, jenums
+from .functional import enumerate_, filter_, map_, zip_
 
 # Return a nicely human readable string representation
 # of a MS::TIME column value

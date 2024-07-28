@@ -53,7 +53,7 @@
 #
 import sys
 
-from jiveplot import ms2util
+from . import ms2util
 
 
 class FailedToLoadMS(Exception):
@@ -124,4 +124,3 @@ class mappings:
             self.domain          = domain
             self.project         = project
             self.numRows         = len(m)
-

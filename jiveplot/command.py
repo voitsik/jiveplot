@@ -2,8 +2,7 @@
 # A rewrite from the glish based version from jivegui.ms2
 from __future__ import print_function
 
-try:               import builtins
-except ImportError:import __builtin__ as builtins
+import builtins
 import copy
 import fcntl
 import glob
@@ -22,8 +21,8 @@ from functools import reduce
 from six import iteritems
 from six.moves import input as raw_input
 
-from jiveplot import hvutil
-from jiveplot.functional import GetA, List, compose, drap, filter_, map_
+from . import hvutil
+from .functional import GetA, List, compose, drap, filter_, map_
 
 # if we have readline, go on, use it then!
 # we attempt to save the history across invocations of this prgrm

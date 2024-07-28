@@ -160,7 +160,7 @@ import numpy
 import pyrap.quanta
 from six import iteritems
 
-from jiveplot import functional, hvutil, jenums, ms2util, plotutil
+from . import functional, hvutil, jenums, ms2util, plotutil
 
 # Auto-detect of pycasa
 havePyCasa = True

@@ -7,9 +7,9 @@ import operator
 
 import numpy
 
-from jiveplot import enumerations, jenums
-from jiveplot.functional import filter_, reduce
-from jiveplot.label_v6 import label
+from . import enumerations, jenums
+from .functional import filter_, reduce
+from .label_v6 import label
 
 CP       = copy.deepcopy
 FLAG     = jenums.Flagstuff
