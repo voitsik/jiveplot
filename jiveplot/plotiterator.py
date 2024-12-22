@@ -151,7 +151,7 @@ from __future__ import print_function
 
 import collections
 import copy
-import imp
+import importlib
 import itertools
 import operator
 import time
@@ -167,7 +167,7 @@ havePyCasa = True
 try:
     import pycasa
     print("*** using PyCasa for measurementset data access ***")
-except:
+except ImportError:
     havePyCasa = False
 
 ## Introduce some shorthands
@@ -1006,7 +1006,7 @@ class partitioner:
                 "ymax = None\n"+
                 "f   = lambda x, y: "+expr,
                 'dyn-mark-string', 'exec')
-        self.mod  = imp.new_module("dyn_marker_mod")
+        self.mod  = importlib.util.module_from_spec(importlib.util.spec_from_loader("dyn_marker_mod", loader=None))
         exec(self.code, self.mod.__dict__)
 
     def __call__(self, x, y):

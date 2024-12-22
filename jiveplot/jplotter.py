@@ -399,7 +399,7 @@ import collections
 import copy
 import datetime
 import functools
-import imp
+import importlib
 import itertools
 import operator
 import os
@@ -1896,8 +1896,11 @@ class environment(object):
                         if os.path.isdir(m_path):
                             sys.path.insert(0, m_path)
 
-                    (f, p, d) = imp.find_module(m_name)
-                    mod = imp.load_module(m_name, f, p, d)
+                    spec = importlib.util.find_spec(m_name)
+                    if spec is None:
+                        raise ImportError("Module {0} not found".format(m_name))
+                    mod = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(mod)
                     self.post_processing_fn  = mod.__dict__[m_fn]
                     self.post_processing_mod = args[0]
                 except ImportError:
