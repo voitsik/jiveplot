@@ -132,7 +132,6 @@ from functools import reduce
 import numpy
 import pyrap.quanta
 import pyrap.tables
-from six import iteritems
 
 from . import hvutil, jenums
 from .functional import enumerate_, filter_, map_, zip_
@@ -717,7 +716,7 @@ class spectralmap:
     #  FREQID is the freqid (you'd never guessed that eh?) and SUBBAND is the *zero*
     #  based subband nr in this freqid that the requested spectral window represents..
     def unmap(self, spwid):
-        for (fq, sbs) in iteritems(self.spectralMap):
+        for (fq, sbs) in self.spectralMap.items():
             for (idx, sb) in sbs:
                 if sb.spWinId==spwid:
                     o = type('',(),{})()
@@ -729,7 +728,7 @@ class spectralmap:
     #  Unmap a DATA_DESC_ID into FREQID/SUBBAND/POLID
     def unmapDDId(self, ddid):
         # look in all FREQGROUPS, in all SUBBANDS for the given DATA_DESC_ID
-        for (k,v) in iteritems(hvutil.dictmap(lambda k_v: [sb for sb in k_v[1] if sb[1].unmapDDId(ddid)], self.spectralMap)):
+        for (k,v) in hvutil.dictmap(lambda k_v: [sb for sb in k_v[1] if sb[1].unmapDDId(ddid)], self.spectralMap).items():
             if len(v)>1:
                 raise RuntimeError("Non-unique search result for DATA_DESC_ID={0}".format(ddid))
             if len(v)==1:
@@ -749,14 +748,14 @@ class spectralmap:
     # Print ourselves in readable format
     def __str__(self):
         r =  "*** SPWIN <-> FREQID/SUBBAND MAP ***\n"
-        for (fgrp,subbands) in iteritems(self.spectralMap):
+        for (fgrp,subbands) in self.spectralMap.items():
             r = r+"FQ={0} ({1})\n".format(fgrp[0], fgrp[1])
             for (idx,sb) in subbands:
                 r = r + "  {0:2d}: {1}".format(idx,sb)
                 if len(sb.datadescMap)>0:
                     r = r + " // {0}\n".format( \
                                       ",".join(["POLID #{0} (DDI={1})".format(pol,ddi) \
-                                                   for (pol,ddi) in iteritems(sb.datadescMap)]) \
+                                                   for (pol,ddi) in sb.datadescMap.items()]) \
                     )
         return r
 
@@ -852,7 +851,7 @@ def makeSpectralMap(nm, **kwargs):
                                     processed = True
                                     # now update the subband object's data desc map with this one's
                                     # let's verify that existing (POLID -> DATA_DESC_ID) are not violated!
-                                    for (p,d) in iteritems(sb.datadescMap):
+                                    for (p,d) in sb.datadescMap.items():
                                         if p in k.datadescMap:
                                             if k.datadescMap[p]!=d:
                                                 #### FIXME TODO

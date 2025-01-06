@@ -92,8 +92,6 @@ import operator
 import re
 from functools import partial, reduce
 
-from six import iteritems
-
 from .functional import drap, filter_, is_not_none, map_, range_
 
 
@@ -108,14 +106,14 @@ def partition(pred, lst):
 # map a function over all the values in the dict
 # {k:v} => {k:f(v)}
 def dictmap(f, d):
-    return dict((k, f((k,v))) for (k,v) in iteritems(d))
+    return dict((k, f((k,v))) for (k,v) in d.items())
 
 # reduce a dict to one value:
 #  acc = f( (k1, v1), f( (k0,v0), acc0 ) )  etc
 # "f" is called as: f(elem, acc)
 # and should return the new accumulator
 def dictfold(f, a, d):
-    for x in iteritems(d):
+    for x in d.items():
         a = f(x, a)
     return a
 

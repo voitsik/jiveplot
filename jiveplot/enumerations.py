@@ -68,35 +68,7 @@ Elements from the enumeration can be used as ordinary variables:
 import collections
 import operator
 
-from six import iteritems, with_metaclass
-
-# Python 2.6 don't have OrderedDict in the collections module. Sigh.
-try:
-    Dict = collections.OrderedDict
-except AttributeError:
-    # provide workaround that preserves order (insofar that's possible; kwargs are unordered)
-    # and ignore duplicate keys
-    class Dict(list):
-        def __init__(self, *args, **kwargs):
-            assert len(args) in [0,1]
-            self.seen = set()
-            self.update( *args, **kwargs )
-
-        def update(self, *args, **kwargs):
-            for (k,v) in (args[0] if args else ()):
-                if k in self.seen:
-                    continue
-                self.append( (k,v) )
-                self.seen.add( k )
-            for (k,v) in iteritems(kwargs):
-                if k in self.seen:
-                    continue
-                self.append( (k,v) )
-                self.seen.add( k )
-
-        def iteritems(self):
-            return self
-
+Dict = collections.OrderedDict
 
 
 class EnumValueMeta(type):
@@ -190,7 +162,7 @@ class EnumMeta(type):
         # use list to preserve the order
         enumvals = list()
         for ev in enums:
-            class EnumValueImpl(with_metaclass(EnumValueMeta)):
+            class EnumValueImpl(metaclass=EnumValueMeta):
                 _enumvalue    = ev
             enumvals.append( EnumValueImpl )
             dct[ ev[0] ] = EnumValueImpl
@@ -264,7 +236,7 @@ def Enum(*names, **namedvalues):
     enums.update( **namedvalues )
     if len(enums)!=(len(names)+len(namedvalues)):
         raise TypeError("Duplicate names detected between names and named values")
-    class EnumImpl(with_metaclass(EnumMeta, object)):
+    class EnumImpl(metaclass=EnumMeta):
         _enums        = tuple((enums.iteritems if hasattr(enums, 'iteritems') else enums.items)())
     return EnumImpl
 

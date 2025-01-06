@@ -158,7 +158,6 @@ import time
 
 import numpy
 import pyrap.quanta
-from six import iteritems
 
 from . import functional, hvutil, jenums, ms2util, plotutil
 
@@ -1722,7 +1721,7 @@ class data_quantity_time(plotbase):
             self.quantities = org_quantities
 
         rv  = {}
-        for (label, dataset) in iteritems(pts):
+        for (label, dataset) in pts.items():
             dl = list(label)
             dataset.average( avgTime )
             # convert x,y to numarrays
@@ -2188,7 +2187,7 @@ class data_quantity_chan(plotbase):
             self.quantities = org_quantities
 
         rv  = {}
-        for (label, dataset) in iteritems(pts):
+        for (label, dataset) in pts.items():
             dl = list(label)
             dataset.average( avgTime )
             # convert x,y to numarrays
@@ -3008,7 +3007,7 @@ class weight_time(plotbase):
 
         rv  = {}
         if self.chanidx:
-            for (label, dataset) in iteritems(pts):
+            for (label, dataset) in pts.items():
                 dl = list(label)
                 dataset.average( avgTime )
                 # convert x,y to numarrays
@@ -3019,7 +3018,7 @@ class weight_time(plotbase):
                         dl[6] = chn
                         rv[ self.MKLAB(fields, dl) ] = dataset_fixed(dataset.x, chd)
         else:
-            for (label, dataset) in iteritems(pts):
+            for (label, dataset) in pts.items():
                 dl = list(label)
                 dataset.average( avgTime )
                 # convert x,y to numarrays
@@ -3136,7 +3135,7 @@ class uv(plotbase):
         pts     =  ms2util.reducems2(self, self.table, {}, columns, verbose=True, chunksize=5000)
 
         rv  = {}
-        for (label, dataset) in iteritems(pts):
+        for (label, dataset) in pts.items():
             rv[ self.MKLAB(fields, label) ] = dataset
         return rv
 
@@ -3484,7 +3483,7 @@ class data_quantity_uvdist(plotbase):
             self.quantities = org_quantities
 
         rv  = {}
-        for (label, dataset) in iteritems(pts):
+        for (label, dataset) in pts.items():
             dl = list(label)
             #dataset.average( avgTime )
             # convert x,y to numarrays

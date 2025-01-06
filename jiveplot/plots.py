@@ -9,7 +9,6 @@ import os
 import re
 
 import numpy
-from six import iteritems
 
 from . import enumerations, functional, hvutil, jenums, ms2util, parsers
 from .functional import drap, map_, range_, reduce, zip_
@@ -78,7 +77,7 @@ def ckey_builtin(label, keycoldict, **opts):
         return 1
     # Never seen this label before - must allocate new colour!
     # find values in the keycoldict and choose one that isn't there already
-    colours = sorted([v for (k,v) in iteritems(keycoldict)])
+    colours = sorted([v for (k,v) in keycoldict.items()])
     # skip colour 0 and 1 (black & white)
     ck      = 2
     if colours:
@@ -140,7 +139,7 @@ def mk_offset(datasets, attribute):
 
     # we automatically get the new x-axis max value out of this
     return reduce(offset_per_sb,
-                  sorted(iteritems(reduce(range_per_sb, datasets, {})),
+                  sorted(reduce(range_per_sb, datasets, {}).items(),
                          key=operator.itemgetter(0)),
                   ({}, None))
 
@@ -760,7 +759,7 @@ class Page(object):
         # in the per-dataset section]. So there's no need to draw the legend
         # because there isn't any
         coldict = dict(filter(functional.compose(operator.truth, operator.itemgetter(0)),
-                       iteritems(self.plotter.coldict())))
+                       self.plotter.coldict().items()))
         if not coldict or not self.plotter.showLegend:
             return
         with pgenv(device):
@@ -780,7 +779,7 @@ class Page(object):
             ypos                       = 0.0
             nyleg                      = int(math.ceil(float(len(coldict))/nxleg))
             dy                         = 1.0/(nyleg+1)
-            for (idx, cmap) in enumerate(iteritems(coldict)):
+            for (idx, cmap) in enumerate(coldict.items()):
                 (label, col) = cmap
                 (ipos, jpos) = (idx % nxleg, idx // nxleg)
 
@@ -1289,8 +1288,8 @@ class Plotter(object):
             # if there are arguments given extract "<axis>:'<label text>'" entries
             # "label x:channel  y1: 'Phase (deg)' amplitude:'Flux (Jy)' y:'Oh (noes/fortnight)'"
             # the rxLabel will yield (<axis>, detected quote, <label text>)
-            for axis, text in iteritems(dict(map(FU.m_itemgetter(0, 2),
-                                                 reduce(operator.add, map(rxLabel.findall, args))))):
+            for axis, text in dict(map(FU.m_itemgetter(0, 2),
+                                                 reduce(operator.add, map(rxLabel.findall, args)))).items():
                 # need to find which axis this is: 'x', 'y[n]' or '<quantity>'
                 xyAxis = rxXYAxis(axis.lower())
                 if xyAxis:
@@ -1395,7 +1394,7 @@ class Quant2TimePlotter(Plotter):
                     # filter the data sets with current y-axis type
                     # Keep the indices because we need them twice
                     datasets = functional.filter_(lambda kv: kv[0].TYPE == ytype and self.filter_fun[subplot](kv[0]),
-                                                  iteritems(pref))
+                                                  pref.items())
 
                     # the type may have been removed due to an expression/selection
                     if not datasets:
@@ -1508,7 +1507,7 @@ class GenXvsYPlotter(Plotter):
                 # filter the data sets with current y-axis type
                 # Keep the indices because we need them twice
                 datasets = functional.filter_(lambda kv: kv[0].TYPE == self.yAxis[0] and self.filter_fun[0](kv[0]),
-                                              iteritems(pref))
+                                              pref.items())
 
                 # the type may have been removed due to an expression/selection
                 if not datasets:
@@ -1621,7 +1620,7 @@ class Quant2ChanPlotter(Plotter):
                     # filter the data sets with current y-axis type
                     # Keep the indices because we need them twice
                     datasets = functional.filter_(lambda kv: kv[0].TYPE == ytype and self.filter_fun[subplot](kv[0]),
-                                                  iteritems(pref))
+                                                  pref.items())
 
                     # the type may have been removed due to an expression/selection
                     if not datasets:

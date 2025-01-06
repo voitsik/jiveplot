@@ -11,7 +11,6 @@ import re
 from functools import reduce
 
 import numpy
-from six import iteritems
 
 from . import hvutil, plotutil
 from .functional import *
@@ -1033,7 +1032,7 @@ def do_iterate(d0, f, d1):
         (key, ds)  = k_ds
         acc[ key ] = plotutil.plt_dataset(ds._xval.data, app(ds._yval.data), ds._yval.mask)
         return acc
-    return reduce(reductor, iteritems(proto), copy_attributes(plotutil.Dict(), proto))
+    return reduce(reductor, proto.items(), copy_attributes(plotutil.Dict(), proto))
 
 applicator_table = {
     # infix:  lhs <operator> rhs
@@ -1705,7 +1704,7 @@ def parse_ckey_expr(expr):
                 ck = keycoldict.get(key, None)
                 if ck is None:
                     # find values in the keycoldict and choose one that isn't there already
-                    colours = sorted([v for (k,v) in iteritems(keycoldict)])
+                    colours = sorted([v for (k,v) in keycoldict.items()])
                     # find first unused colour index, skip colour 0 and 1 (black & white)
                     ck = 2
                     while colours and ck<=colours[-1]:

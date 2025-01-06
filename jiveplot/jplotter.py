@@ -409,7 +409,6 @@ import sys
 import time
 
 import ppgplot
-from six import iteritems
 
 from . import (
     gencolors,
@@ -1192,7 +1191,7 @@ class jplotter:
                 # fsp_v == ((f,s,p), v)
                 sel_.ddSelection = \
                         map_(lambda fsp_v: (fsp_v[0][0], fsp_v[0][1], fsp_v[0][2], list(fsp_v[1])), \
-                             iteritems(reduce(reductor, sel_.ddSelection, {})))
+                             reduce(reductor, sel_.ddSelection, {}).items())
 
                 # Must update the TaQL to select the current DDIds
                 # fspl = (f, s, p, l)
@@ -1579,7 +1578,7 @@ class jplotter:
 
         # transform into plots.Dict() structure
         nUseless = 0
-        for (label, dataset) in iteritems(pl):
+        for (label, dataset) in pl.items():
             tmp  = plots.plt_dataset(dataset.x, dataset.y, dataset.m)
             if tmp.useless:
                 nUseless += 1
@@ -1596,7 +1595,7 @@ class jplotter:
 
         # from the current newPlot setting, find the plot and dataset axes
         # 1. find the axes that make up the plot label (data set label will be the rest)
-        plotaxes = map_(lambda ax_nw: ax_nw[0], filter(lambda ax_nw: ax_nw[1]==True, iteritems(np)))
+        plotaxes = map_(lambda ax_nw: ax_nw[0], filter(lambda ax_nw: ax_nw[1]==True, np.items()))
         splitter = plots.label_splitter(plotaxes)
         # 2. Go through all of the plots and reorganize
         def proc_ds(acc, l_dataset):
@@ -1608,7 +1607,7 @@ class jplotter:
             acc.setdefault(plot_l, plots.Dict())[ dataset_l ] = ds
             return acc
         rv = parsers.copy_attributes(plots.Dict(), plts)
-        return reduce(proc_ds, iteritems(plts), rv)
+        return reduce(proc_ds, plts.items(), rv)
 
     def processLabel(self, plts):
         # Version 2.0: Based on all the plot- and data set labels, come up
@@ -1645,8 +1644,8 @@ class jplotter:
 
         # analyze the plot + data set attributes for unique values
         # those get appended to the project
-        (plotuniq, plotrest) = hvutil.partition(lambda k_v: len(k_v[1])==1, iteritems(plotattrs))
-        (dsuniq  ,   dsrest) = hvutil.partition(lambda k_v: len(k_v[1])==1,   iteritems(dsattrs))
+        (plotuniq, plotrest) = hvutil.partition(lambda k_v: len(k_v[1])==1, plotattrs.items())
+        (dsuniq  ,   dsrest) = hvutil.partition(lambda k_v: len(k_v[1])==1, dsattrs.items())
 
         # For the unique values, we extract the VALUES and append them
         # for the non-unique values, we produce an ATTRIBUTE list such that
@@ -1695,7 +1694,7 @@ class jplotter:
         s = NOW()
         glimits = DD(lambda: (list(), list(), list(), list()))
         for plotlab in plts.keys():
-            for (tp, mdata) in iteritems(reduce(reductor, iteritems(plts[plotlab]), DD(lambda: (list(), list(), list(), list())))):
+            for (tp, mdata) in reduce(reductor, plts[plotlab].items(), DD(lambda: (list(), list(), list(), list()))).items():
                 mref      = plts.meta[plotlab][tp]
                 mref.xlim = (min(mdata[0]), max(mdata[1]))
                 mref.ylim = (min(mdata[2]), max(mdata[3]))
@@ -1705,7 +1704,7 @@ class jplotter:
                 glimits[tp][ 2 ].append( mref.ylim[0] )
                 glimits[tp][ 3 ].append( mref.ylim[1] )
         # and set them
-        for (tp, mdata) in iteritems(glimits):
+        for (tp, mdata) in glimits.items():
             mref      = plts.limits[tp]
             mref.xlim = (min(mdata[0]), max(mdata[1]))
             mref.ylim = (min(mdata[2]), max(mdata[3]))
@@ -2674,7 +2673,7 @@ def run_plotter(cmdsrc, **kwargs):
     def show_vars_fn():
         print("Currently defined variables:")
         namelen  = max(max(map(len, datasets.keys())), 10) if datasets else 0
-        for (k,v) in iteritems(datasets):
+        for (k,v) in datasets.items():
             print("{0:<{1}} = {2}".format(k, namelen, "'{0}' from {1} [{2} plots]".format(v.plotType, v.msname, len(v)) if parsers.isDataset(v) else str(v)))
 
 
@@ -3028,7 +3027,7 @@ def run_plotter(cmdsrc, **kwargs):
     c.run(cmdsrc)
 
     # Clean up all plot windows
-    for (k,v) in iteritems(foo):
+    for (k,v) in foo.items():
         v.close()
     ppgplot.pgend()
 

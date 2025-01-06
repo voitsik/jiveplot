@@ -43,10 +43,8 @@ import copy
 import operator
 from functools import reduce
 
-from six import iteritems
-
 from . import hvutil, jenums
-from .functional import compose, is_not_none, map_
+from .functional import compose, map_
 
 # how to format a time range "(start, end)" as TaQL
 fmt_time_cond = "(TIME>={0[0]:.7f} && TIME<={0[1]:.7f})".format
@@ -142,12 +140,12 @@ class selection:
         # such that we end up with
         #    ddSelection = [(fs, [sb], pol, [prods]), ....]
         # once more dict + set to the rescue
-        hrf = map(selection.proc_sb, iteritems(reduce(selection.group_sb, self.ddSelection, {})))
+        hrf = map(selection.proc_sb, reduce(selection.group_sb, self.ddSelection, {}).items())
 
         # each entry can already be listed as one, abbreviated, line Let's see
         # if there are multiple FQs who have the same [sb], pol, [prods]
         # selection and group them together. Again: dict + set to the rescue
-        hrf = map(selection.proc_fq, iteritems(reduce(selection.group_fq, hrf, {})))
+        hrf = map(selection.proc_fq, reduce(selection.group_fq, hrf, {}).items())
 
         # now we can produce the output
         return map_(selection.fmter(pMap), hrf)

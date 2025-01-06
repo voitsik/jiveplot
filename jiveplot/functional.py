@@ -5,8 +5,6 @@ from functools import partial, reduce
 from itertools import groupby
 from operator import attrgetter, is_not, itemgetter, methodcaller, truth
 
-from six import iteritems
-
 # why this isn't in stdlib ... is probably because Guido does't like functional programming ...
 identity    = lambda x      : x
 # everybody SHOULD love function composition :-)
@@ -43,8 +41,8 @@ maybe_set   = lambda a, v          : choice(const(is_not_none(v)), setattr_(a, v
 identity    = lambda x, *a, **kw   : x
 #mk_query    = lambda c, t, w, *args: "SELECT {0} FROM {1} WHERE {2}{3}".format(c, t, w, "" if not args else " and "+args[0])
 do_update   = lambda x, y          : x.update(y) or x
-d_filter    = lambda keys          : (lambda d: dict(((k,v) for k,v in iteritems(d) if k in keys)))
-d_filter_n  = lambda keys          : (lambda d: dict(((k,v) for k,v in iteritems(d) if k not in keys)))
+d_filter    = lambda keys          : (lambda d: dict(((k,v) for k,v in d.items() if k in keys)))
+d_filter_n  = lambda keys          : (lambda d: dict(((k,v) for k,v in d.items() if k not in keys)))
 # expose the print function as, well, a function
 printf      = print
 #collectf    = lambda x, y : x.collectfn(y)

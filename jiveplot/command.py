@@ -18,9 +18,6 @@ import termios
 import traceback
 from functools import reduce
 
-from six import iteritems
-from six.moves import input as raw_input
-
 from . import hvutil
 from .functional import GetA, List, compose, drap, filter_, map_
 
@@ -151,7 +148,7 @@ class readkbd(newhistory):
 
     def __next__(self):
         try:
-            l = raw_input(self.prompt+"> ")
+            l = input(self.prompt+"> ")
             if self.controlc:
                 #rl_done.value = 0
                 self.controlc = None
@@ -362,7 +359,7 @@ class scripted:
 def mkcmd(**kwargs):
     # create an instance of an anonymous type
     o = type('', (), {})()
-    drap(lambda a_v: setattr(o,a_v[0],a_v[1]), iteritems(kwargs))
+    drap(lambda a_v: setattr(o,a_v[0],a_v[1]), kwargs.items())
     return o
 
 ## oneliner to discard all characters up until the comment character
@@ -475,7 +472,7 @@ class CommandLineInterface:
         drap(compose(p, fmt), sorted(ids))
 
         s.append("=== Macros   ===")
-        s.extend( map_("{0[0]} => '{0[1]}'".format, iteritems(self.macros)) )
+        s.extend( map_("{0[0]} => '{0[1]}'".format, self.macros.items()) )
         maybePage(s)
 
     def addCommand(self, cmd):
@@ -485,7 +482,7 @@ class CommandLineInterface:
         for x in self.commands:
             if x.id==cmd.id:
                 raise RuntimeError("Command '{0}' already exists".format(cmd.id))
-        for (n,v) in iteritems(self.macros):
+        for (n,v) in self.macros.items():
             if cmd.rx.match(n):
                 raise RuntimeError("Attempt to add command '{0}', which is already defined as macro".format(cmd.id))
         self.commands.append(cmd)
@@ -506,7 +503,7 @@ class CommandLineInterface:
         def reductor(acc, k_v):
             acc[k_v[0]] = filter_(lambda txt: re.search(wordmatch(txt), k_v[1]), nmacro.keys())
             return acc
-        graph = reduce(reductor, iteritems(nmacro), {})
+        graph = reduce(reductor, nmacro.items(), {})
         # (3) detect cycles
         if hvutil.cycle_detect(graph):
             raise SyntaxError("The macro definition '{0} => {1}' would create a loop in macroexpansion!".format(n, v))
@@ -602,7 +599,7 @@ class CommandLineInterface:
             raise RuntimeError("internal error - too many arguments to 'macro' command")
         if len(parts)==0:
             # display all macro definitions
-            drap(compose(print, "{0[0]} => '{0[1]}'".format), iteritems(self.macros))
+            drap(compose(print, "{0[0]} => '{0[1]}'".format), self.macros.items())
         elif len(parts)==1:
             # display the definition of macro 'xxx' (if any)
             try:
@@ -645,7 +642,7 @@ class CommandLineInterface:
         # stop if the output is the same as the input
         while True:
             otext = copy.deepcopy(txt)
-            txt = reduce(lambda acc, n_v: re.sub(wordmatch(n_v[0]), n_v[1], acc), iteritems(self.macros), txt)
+            txt = reduce(lambda acc, n_v: re.sub(wordmatch(n_v[0]), n_v[1], acc), self.macros.items(), txt)
             if txt==otext:
                 break
         return txt
@@ -665,7 +662,7 @@ class CommandLineInterface:
         if not self.app:
             return
         with open(os.path.join(os.getenv('HOME'), ".{0}.macros".format(self.app)), 'w') as mf:
-            reduce(lambda acc, n_v: void(acc.write("{0[0]} '{0[1]}'\n".format(n_v))) or acc, iteritems(self.macros), mf)
+            reduce(lambda acc, n_v: void(acc.write("{0[0]} '{0[1]}'\n".format(n_v))) or acc, self.macros.items(), mf)
             mf.close()
 
 
