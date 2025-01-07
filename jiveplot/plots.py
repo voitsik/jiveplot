@@ -1,5 +1,4 @@
 # the possible plottypes are defined here,
-from __future__ import print_function
 
 import copy
 import functools

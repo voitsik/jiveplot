@@ -117,7 +117,6 @@
 #
 #  Revision 1.1.1.1  2001/04/06 13:34:34  verkout
 #  Files, new + from jivegui/MS1
-from __future__ import print_function
 
 import collections
 import copy

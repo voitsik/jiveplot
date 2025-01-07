@@ -6,7 +6,6 @@
 ##       such that we can divide the "H" colour space in roughly even bits.
 ##       If you requested a low number of colours from the original code, they would be
 ##       rather close to each other
-from   __future__ import print_function
 import itertools, math, colorsys
 from   fractions import Fraction
 

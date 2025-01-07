@@ -147,7 +147,6 @@
 ##       built around ms2util.reducems
 ##
 ##
-from __future__ import print_function
 
 import collections
 import copy

@@ -1,4 +1,3 @@
-from __future__ import print_function
 import numpy, plots, math, operator
 from past.builtins import xrange
 

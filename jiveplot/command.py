@@ -1,6 +1,5 @@
 # command line utility - abstracts handling of commands from defining/implementing them
 # A rewrite from the glish based version from jivegui.ms2
-from __future__ import print_function
 
 import builtins
 import copy

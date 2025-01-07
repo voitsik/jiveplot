@@ -1,4 +1,3 @@
-from __future__ import print_function
 
 from collections import deque
 from functools import partial, reduce
@@ -138,7 +137,6 @@ Map_       = lambda f: partial(map_, f)
 # tlist.py: # The timing tests below clearly show this. The net result is that
 # tlist.py: # Py3 is always a factor 3 slower compared to Py2 map()/filter()
 # tlist.py: # returning a direct list.
-# tlist.py: from __future__ import print_function
 # tlist.py:
 # tlist.py: test_list = filter(lambda x: x%2==0, range(1000))
 # tlist.py:

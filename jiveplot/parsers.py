@@ -1,5 +1,4 @@
 # HV: Contains parsers for querying list of scans
-from __future__ import print_function
 
 import collections
 import copy

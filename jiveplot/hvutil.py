@@ -82,7 +82,6 @@
 # Revision 1.2  2013-01-29 12:23:44  jive_cc
 # HV: * time to commit - added some more basic stuff
 #
-from __future__ import print_function
 
 import copy
 import datetime
